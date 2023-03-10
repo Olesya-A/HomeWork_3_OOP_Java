@@ -7,14 +7,22 @@ import java.util.Comparator;
 //        2. Релизовать 3 сортировки: 1 - по цене, 2 - по памяти, 3 - сначала по памяти, потом по цене
 //        3. Отсортировать тремя способами стандартными средствами (Collections#sort или List#sort)
 
-public class Notebook {
+public class NoteBook {
 
     double price;
     int ram;
 
-    public Notebook(double price, int ram) {
+    public NoteBook(double price, int ram) {
         this.price = price;
         this.ram = ram;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public int getRam() {
+        return ram;
     }
 
     @Override
@@ -22,37 +30,71 @@ public class Notebook {
         return price + " price, " + ram + " ram";
     }
 
-    public static class PriceSortComparator implements Comparator<Notebook> {
+    public static class PriceSortComparator implements Comparator<NoteBook> {
 
         @Override
-        public int compare(Notebook o1, Notebook o2) {
-            if (o1.price < o2.price) {
+        public int compare(NoteBook o1, NoteBook o2) {
+            if (o1.getPrice() < o2.getPrice()) {
                 return -1;
-            } else if (o1.price > o2.price) {
+            } else if (o1.getPrice() > o2.getPrice()) {
                 return 1;
             }
             return 0;
         }
     }
 
-    public static void main(String[] args) {
+    public static class RamSortComparator implements Comparator<NoteBook> {
 
-        ArrayList<Notebook> nbList = new ArrayList<Notebook>();
-
-        nbList.add(new Notebook(10000, 16));
-        nbList.add(new Notebook(20000, 32));
-        nbList.add(new Notebook(10000, 32));
-        nbList.add(new Notebook(20000, 16));
-        nbList.add(new Notebook(30000, 64));
-        nbList.add(new Notebook(40000, 64));
-        nbList.add(new Notebook(50000, 128));
-
-        
-
-        Comparator<Notebook> PriceComparator = new PriceSortComparator();
-        Collections.sort(nbList, PriceComparator);
-        for (Notebook nb : nbList) {
-            System.out.println(nb);
+        @Override
+        public int compare(NoteBook o1, NoteBook o2) {
+            if (o1.getRam() < o2.getRam()) {
+                return -1;
+            } else if (o1.getRam() > o2.getRam()) {
+                return 1;
+            }
+            return 0;
         }
     }
+
+
+    public static void main(String[] args) {
+
+        ArrayList<NoteBook> nbList = new ArrayList<NoteBook>();
+
+        nbList.add(new NoteBook(20000, 16));
+        nbList.add(new NoteBook(15000, 16));
+        nbList.add(new NoteBook(10000, 32));
+        nbList.add(new NoteBook(10000, 16));
+        nbList.add(new NoteBook(30000, 32));
+        nbList.add(new NoteBook(40000, 128));
+        nbList.add(new NoteBook(50000, 64));
+
+        System.out.println("Сортировка по цене.");
+        Comparator<NoteBook> PriceComparator = new PriceSortComparator();
+        Collections.sort(nbList, PriceComparator);
+        for (NoteBook nb : nbList) {
+            System.out.println(nb);
+        }
+
+        System.out.println();
+        System.out.println("Сортировка по памяти.");
+        Comparator<NoteBook> RamComparator = new RamSortComparator();
+        Collections.sort(nbList, RamComparator);
+        for (NoteBook nb : nbList) {
+            System.out.println(nb);
+        }
+
+        System.out.println();
+        System.out.println("Сортировка по памяти, потом по цене");
+        Comparator<NoteBook> RamPriceComparator = (o1, o2) -> {
+            if (o1.getRam() - o2.getRam() == 0) {
+                return (int)(o1.getPrice() - o2.getPrice());
+            }
+            return o1.getRam() - o2.getRam();
+        };
+        Collections.sort(nbList, RamPriceComparator);
+        for (NoteBook nb : nbList) {
+            System.out.println(nb);
+    }
+}
 }
