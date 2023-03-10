@@ -93,7 +93,7 @@ public class NoteBook {
             }
             return o1.getRam() - o2.getRam();
         };
-        Collections.sort(nbList, RamPriceComparator);
+        nbList.sort(RamPriceComparator);
         for (NoteBook nb : nbList) {
             System.out.println(nb);
     }
