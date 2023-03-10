@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 //        Создать класс Notebook с полями (price(double), ram(int))
@@ -6,11 +7,12 @@ import java.util.Comparator;
 //        2. Релизовать 3 сортировки: 1 - по цене, 2 - по памяти, 3 - сначала по памяти, потом по цене
 //        3. Отсортировать тремя способами стандартными средствами (Collections#sort или List#sort)
 
-public class NoteBook {
+public class Notebook {
+
     double price;
     int ram;
 
-    public NoteBook(double price, int ram) {
+    public Notebook(double price, int ram) {
         this.price = price;
         this.ram = ram;
     }
@@ -20,40 +22,37 @@ public class NoteBook {
         return price + " price, " + ram + " ram";
     }
 
-    public static class PriceSortComparator implements Comparator<Double> {
+    public static class PriceSortComparator implements Comparator<Notebook> {
 
         @Override
-        public int compare(Double o1, Double o2) {
-            
+        public int compare(Notebook o1, Notebook o2) {
+            if (o1.price < o2.price) {
+                return -1;
+            } else if (o1.price > o2.price) {
+                return 1;
+            }
+            return 0;
         }
-    
-        
     }
 
     public static void main(String[] args) {
-        NoteBook notebook_1 = new NoteBook(10000, 16);
-        NoteBook notebook_2 = new NoteBook(20000, 32);
-        NoteBook notebook_3 = new NoteBook(10000, 32);
-        NoteBook notebook_4 = new NoteBook(20000, 16);
-        NoteBook notebook_5 = new NoteBook(30000, 64);
-        NoteBook notebook_6 = new NoteBook(40000, 64);
-        NoteBook notebook_7 = new NoteBook(50000, 128);
 
-        ArrayList<NoteBook> nbList = new ArrayList<NoteBook>();
-        nbList.add(notebook_1);
-        nbList.add(notebook_2);
-        nbList.add(notebook_3);
-        nbList.add(notebook_4);
-        nbList.add(notebook_5);
-        nbList.add(notebook_6);
-        nbList.add(notebook_7);
+        ArrayList<Notebook> nbList = new ArrayList<Notebook>();
 
+        nbList.add(new Notebook(10000, 16));
+        nbList.add(new Notebook(20000, 32));
+        nbList.add(new Notebook(10000, 32));
+        nbList.add(new Notebook(20000, 16));
+        nbList.add(new Notebook(30000, 64));
+        nbList.add(new Notebook(40000, 64));
+        nbList.add(new Notebook(50000, 128));
 
-        for (NoteBook nb : nbList) {
+        
+
+        Comparator<Notebook> PriceComparator = new PriceSortComparator();
+        Collections.sort(nbList, PriceComparator);
+        for (Notebook nb : nbList) {
             System.out.println(nb);
         }
-
-
     }
-
 }
