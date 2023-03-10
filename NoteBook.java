@@ -43,18 +43,18 @@ public class NoteBook {
         }
     }
 
-    public static class RamSortComparator implements Comparator<NoteBook> {
+    // public static class RamSortComparator implements Comparator<NoteBook> {
 
-        @Override
-        public int compare(NoteBook o1, NoteBook o2) {
-            if (o1.getRam() < o2.getRam()) {
-                return -1;
-            } else if (o1.getRam() > o2.getRam()) {
-                return 1;
-            }
-            return 0;
-        }
-    }
+    //     @Override
+    //     public int compare(NoteBook o1, NoteBook o2) {
+    //         if (o1.getRam() < o2.getRam()) {
+    //             return -1;
+    //         } else if (o1.getRam() > o2.getRam()) {
+    //             return 1;
+    //         }
+    //         return 0;
+    //     }
+    // }
 
 
     public static void main(String[] args) {
@@ -78,7 +78,8 @@ public class NoteBook {
 
         System.out.println();
         System.out.println("Сортировка по памяти.");
-        Comparator<NoteBook> RamComparator = new RamSortComparator();
+        // Comparator<NoteBook> RamComparator = new RamSortComparator();
+        Comparator<NoteBook> RamComparator = (o1, o2) -> o1.getRam() - o2.getRam();
         Collections.sort(nbList, RamComparator);
         for (NoteBook nb : nbList) {
             System.out.println(nb);
